@@ -12,18 +12,19 @@ app.use(express.static(__dirname + '/public'));
 
 app.set('port', process.env.PORT || 3000);
 
-//home
+//home page
 app.get('/', function(req, res){
     res.type('text/html');
     res.sendfile('./public/home.html');
 }); 
 
-//about
+//about page
 app.get('/about', function(req, res){
     res.type('text/plain');
     res.send('About');
 });
 
+//Search function
 app.post('/search', function(req, res) {
     res.type('text/html');
     var headerCourse = req.body.course;
@@ -39,6 +40,7 @@ app.post('/search', function(req, res) {
     }
 });
 
+//Add function
 app.post('/add', function(req, res) {
     res.type('text/html');
     var newCourse = {"course":req.body.course, "city":req.body.city};
@@ -54,6 +56,7 @@ app.post('/add', function(req, res) {
     }
 });
 
+//Delete function
 app.post('/delete', function(req, res) {
     res.type('text/html');
     var result = golf.deleteCourse(req.body.course);
