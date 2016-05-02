@@ -1,16 +1,16 @@
 <form action="/search" method="post">
-    Course name: <input type="text" name="course" id="course"><br>
+    Course name: <input type="text" name="course"><br>
     <button>Search</button>
     <button>Add</button>
     <button>Delete</button>
 </form>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+
 <script>
     $(document).ready(function(){
         var buttons = $('button');
         buttons.on('click', function() {
             var $this = $(this);
-            $('form').attr('action', $this.text().toLowerCase());
+            $('form').attr('action', $this.text().toLowerCase();)
         });
     })
 </script>
