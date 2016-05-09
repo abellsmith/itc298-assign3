@@ -28,12 +28,15 @@ app.get('/about', function(req, res){
 app.post('/search', function(req, res) {
     res.type('text/html');
     var headerCourse = req.body.course;
-    var foundCourse = golf.getCourse(req.body.course);
+    console.log(req.body.course);
+    var result = golf.getCourse(req.body.course);
     var headerArray = golf.getArray();
+    // you can use headerArray.length for # of items
+    var count = golf.getCount();
     console.log(headerArray);
     
-    if (foundCourse) {
-        res.send(headerCourse + " found.  Total number of golf courses is: " + foundCourse.length);
+    if (result) {
+        res.send(headerCourse + " found.  Total number of golf courses is: " + count);
     } 
     else {
         res.send(headerCourse + ' not found');
@@ -43,12 +46,16 @@ app.post('/search', function(req, res) {
 //Add function
 app.post('/add', function(req, res) {
     res.type('text/html');
+    // you are adding a city param, but your form doesn't have this field
     var newCourse = {"course":req.body.course, "city":req.body.city};
+
+    // you are passing a string to golf.addCourse instead of the 'newCourse' object, 
+    // so addCourse adds the string instead of an object
     var result = golf.addCourse(req.body.course);
     var headerArray = golf.getArray();
     console.log(headerArray);
     
-    if (result) {
+    if (result.added) {
         res.send(req.body.course + " added.  Total number of golf courses is: " + result.total);
     } 
     else {
@@ -63,7 +70,7 @@ app.post('/delete', function(req, res) {
     var headerArray = golf.getArray();
     console.log(headerArray);
     
-    if (result) {
+    if (result.deleted) {
         res.send(result.name + " deleted.  Total number of golf courses is: " + result.total);
     } 
     else {
