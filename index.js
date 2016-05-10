@@ -47,11 +47,11 @@ app.post('/search', function(req, res) {
 app.post('/add', function(req, res) {
     res.type('text/html');
     // you are adding a city param, but your form doesn't have this field
-    var newCourse = {"course":req.body.course, "city":req.body.city};
+    var newCourse = {"course":req.body.course};
 
     // you are passing a string to golf.addCourse instead of the 'newCourse' object, 
     // so addCourse adds the string instead of an object
-    var result = golf.addCourse(req.body.course);
+    var result = golf.addCourse(newCourse);
     var headerArray = golf.getArray();
     console.log(headerArray);
     
@@ -66,12 +66,12 @@ app.post('/add', function(req, res) {
 //Delete function
 app.post('/delete', function(req, res) {
     res.type('text/html');
-    var result = golf.deleteCourse(req.body.course);
+    var result = golf.delete(req.body.course);
     var headerArray = golf.getArray();
     console.log(headerArray);
     
     if (result.deleted) {
-        res.send(result.name + " deleted.  Total number of golf courses is: " + result.total);
+        res.send(req.body.course + " deleted.  Total number of golf courses is: " + result.total);
     } 
     else {
         res.send(req.body.course + ' not found.');
