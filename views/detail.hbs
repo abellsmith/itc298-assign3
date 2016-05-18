@@ -1,4 +1,5 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+{{course}}
 {{#if result.action}}
     <h2>{{result.action}} - {{course.course}}</h2>
 {{else if course.course}}
@@ -12,7 +13,6 @@
 
     <button>{{#if course.id}}Update{{else}}Add{{/if}}</button>
     <button>Delete</button>
-</form>
 {{/if}}
 
 <script>

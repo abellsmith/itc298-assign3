@@ -30,7 +30,7 @@ app.get('/', function(req, res){
 
 app.get('/detail/:course', function(req,res){
     res.type('text/html');
-    var found = golf.getAll(req.params.course);
+    var found = golf.getCourse(req.params.course);
     if (!found) {
         // note - new course has no ID yet
         found = {course: req.params.course};
@@ -49,12 +49,13 @@ app.get('/about', function(req, res){
 app.post('/search', function(req, res) {
     res.type('text/html');
     console.log(req.body.course);
-    var found = golf.getCourse(req.body.course);
-    if (!found) {
+    var foundCourse = golf.getCourse(req.body.course);
+    if (!foundCourse) {
         // note - new course has no ID yet
-        found = {course: req.params.course};
+        foundCourse = {course: req.body.course};
     }
-    res.render('detail', {course: found} );
+    console.log(foundCourse)
+    res.render('detail', {course: foundCourse} );
 });
 
 //Add function
@@ -62,34 +63,17 @@ app.post('/add', function(req, res) {
     res.type('text/html');
     // you are adding a city param, but your form doesn't have this field
     var newCourse = {"course":req.body.course, "city":req.body.city};
-
     // you are passing a string to golf.addCourse instead of the 'newCourse' object, 
     // so addCourse adds the string instead of an object
     var result = golf.addCourse(newCourse);
-    var headerArray = golf.getArray();
-    console.log(headerArray);
-    
-    if (result.added) {
-        res.send(req.body.course + " added.  Total number of golf courses is: " + result.total);
-    } 
-    else {
-        res.send("Updated: " + req.body.course);
-    }
+    res.render('detail', {course: newCourse, result: result});
 });
 
 //Delete function
 app.post('/delete', function(req, res) {
     res.type('text/html');
     var result = golf.delete(req.body.course);
-    var headerArray = golf.getArray();
-    console.log(headerArray);
-    
-    if (result.deleted) {
-        res.send(req.body.course + " deleted.  Total number of golf courses is: " + result.total);
-    } 
-    else {
-        res.send(req.body.course + ' not found.');
-    }
+    res.render('detail', {result: result});
 });
 
 //custom 404 pg
