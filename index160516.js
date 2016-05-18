@@ -1,67 +1,54 @@
-var express = require('express');
-var app = express();
 var golf = require("./lib/courses.js");
 
-//set express
-app.set('port', process.env.PORT || 3000);
-app.use(express.static(__dirname + '/public'));
+var express = require('express');
+
+var app = express();
+
+
 var bodyParser = require("body-parser");
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({extended: true})); // support encoded bodies
 
-//set handlebars
-var viewsPath = __dirname + '/views'; 
-var handlebars = require('express-handlebars').create({defaultLayout: 'main', extname:'.hbs', layoutsDir: viewsPath + '/layouts',  partialsDir: viewsPath + '/partials' });
-app.engine('hbs', handlebars.engine);
-app.set('view engine', 'hbs' );
+app.use(express.static(__dirname + '/public'));
 
-
-
-
-
- 
+app.set('port', process.env.PORT || 3000);
 
 //home page
 app.get('/', function(req, res){
     res.type('text/html');
-    // res.sendfile('./public/home.html');
-    res.render('home', {courses: golf.getAll()});  // renders home view using default layout
+    res.sendfile('./public/home.html');
 }); 
-
-app.get('/detail/:course', function(req,res){
-    res.type('text/html');
-    var found = golf.getAll(req.params.course);
-    if (!found) {
-        // note - new course has no ID yet
-        found = {course: req.params.course};
-    }
-    res.render('detail', {course: found} );    
-});
-
 
 //about page
 app.get('/about', function(req, res){
-    res.type('text/html');
+    res.type('text/plain');
     res.send('About');
 });
 
 //Search function
 app.post('/search', function(req, res) {
     res.type('text/html');
+    var headerCourse = req.body.course;
     console.log(req.body.course);
-    var found = golf.getCourse(req.body.course);
-    if (!found) {
-        // note - new course has no ID yet
-        found = {course: req.params.course};
+    var result = golf.getCourse(req.body.course);
+    var headerArray = golf.getArray();
+    // you can use headerArray.length for # of items
+    var count = golf.getCount();
+    console.log(headerArray);
+    
+    if (result) {
+        res.send(headerCourse + " found.  Total number of golf courses is: " + count);
+    } 
+    else {
+        res.send(headerCourse + ' not found');
     }
-    res.render('detail', {course: found} );
 });
 
 //Add function
 app.post('/add', function(req, res) {
     res.type('text/html');
     // you are adding a city param, but your form doesn't have this field
-    var newCourse = {"course":req.body.course, "city":req.body.city};
+    var newCourse = {"course":req.body.course};
 
     // you are passing a string to golf.addCourse instead of the 'newCourse' object, 
     // so addCourse adds the string instead of an object
