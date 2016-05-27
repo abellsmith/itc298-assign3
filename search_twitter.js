@@ -25,7 +25,7 @@ app.get('/api/search/:tag', function(req,res){
 });
 
 // twitter library
-var twitter = require('../lib/twitter')({
+var twitter = require('./lib/twitter')({
 	consumerKey: credentials.twitter.consumerKey,
 	consumerSecret: credentials.twitter.consumerSecret,
 });

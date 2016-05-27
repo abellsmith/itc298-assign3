@@ -1,6 +1,6 @@
 var http = require('http'),
 	express = require('express'),
-	salaries = require("../lib/salaries");
+	salaries = require("./lib/salaries");
 
 var app = express();
 app.set('port', process.env.PORT || 3000);

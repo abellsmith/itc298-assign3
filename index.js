@@ -1,6 +1,5 @@
 var express = require('express');
 var app = express();
-//var golf = require("./lib/courses.js");
 
 //set express
 app.set('port', process.env.PORT || 3000);
@@ -14,6 +13,14 @@ var viewsPath = __dirname + '/views';
 var handlebars = require('express-handlebars').create({defaultLayout: 'main', extname:'.hbs', layoutsDir: viewsPath + '/layouts',  partialsDir: viewsPath + '/partials' });
 app.engine('hbs', handlebars.engine);
 app.set('view engine', 'hbs' );
+
+
+
+
+// CORS
+app.use('/api', require('cors')());
+
+
 
 
 
