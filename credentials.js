@@ -1,6 +1,10 @@
 module.exports = {
-	twitter: {
-		consumerKey : "-",
-		consumerSecret : "-",
+	mongo: {
+		development: {
+			connectionString: '',
+		},
+		// production: {
+		// 	connectionString: '',
+		// },
 	},
 };
