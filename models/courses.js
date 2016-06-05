@@ -18,3 +18,4 @@ var courseSchema = mongoose.Schema({
 });
 
 module.exports = mongoose.model('Course', courseSchema);
+//exporting 2 arguments 1) name of collection, 2) object
